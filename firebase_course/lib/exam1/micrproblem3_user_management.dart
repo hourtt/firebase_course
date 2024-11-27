@@ -200,7 +200,6 @@ class PasswordResetPage extends StatefulWidget {
 
 class _PasswordResetPageState extends State<PasswordResetPage> {
   final TextEditingController emailController = TextEditingController();
-  var auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -276,14 +275,16 @@ class _PasswordResetPageState extends State<PasswordResetPage> {
                   ),
                   onPressed: () async {
                     //TODO: Part 1 - Instruction 4
-                    await auth.sendPasswordResetEmail(
-                        email: emailController.text);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const PasswordResetCompletePage(),
-                      ),
-                    );
+                    //Call the resetPassword method inside the onPressed property of the Next button
+                    String email = emailController.text; // Assuming you have a TextEditingController
+                    widget.authHelper.resetPassword(email);
+//                     await auth.sendPasswordResetEmail(email:emailController.text);
+//                     Navigator.push(
+//                       context,
+//                       MaterialPageRoute(
+//                         builder: (context) => const PasswordResetCompletePage(),
+//                       ),
+//                     );
                   },
                   child: const Text(
                     'Next',
@@ -658,7 +659,8 @@ class _SetUpPageState extends State<SetUpPage> {
                     onPressed: () {
                       try {
                         //TODO: Part 2 - Instruction 2
-                        auth.signOut();
+                        //Call the logOut method in the try syntax within onPressed
+                        widget.authHelper.logOut();
                         isSuccess = true;
                       } catch (e) {
                         print(e);
@@ -705,10 +707,11 @@ class _SetUpPageState extends State<SetUpPage> {
                                         fontSize: 16, color: Color(0xff0064E0)),
                                   )),
                               TextButton(
-                                onPressed: () {
+                                onPressed:() {
                                   try {
                                     //TODO: Part 3 - Instruction 3
-                                    auth.currentUser!.delete();
+                                    //call the deleteAccount method in the try syntax within onPressed
+                                    widget.authHelper.deleteAccount();
                                     isSuccess = true;
                                   } catch (e) {
                                     print(e);
@@ -754,24 +757,30 @@ class AuthHelper {
 
   Future<void> logOut() async {
     //TODO: Part 2 - Instruction 1
-    await auth.signOut();
+    //Call the signOut method ini the logOut method of the AuthHelper class
+    auth.signOut();
   }
 
   Future<void> deleteAccount() async {
     //TODO: Part 3 - Instruction 1
+    //add currentUser!.delete() inside the deleteAccount method to delete the current user
     await auth.currentUser!.delete();
     //TODO: Part 3 - Instruction 2
+    //add the signOut method inside the deleteAccount mehod to sign out
     await auth.signOut();
   }
 
   //TODO: Part 1 - Instruction 1
+  //add the email parameter to the resetPassword method of the AuthHelper class
   Future<void> resetPassword(String email) async {
     //TODO: Part 1 - Instruction 2, 3
     //TODO: Part 1 - Instruction 2
-    try {
+    //Create a form of the resetPassword method using the try{} and catch {} syntax
+    try{
       //TODO: Part 1 - Instruction 3
-      await auth.sendPasswordResetEmail(email: auth.currentUser!.email!);
-    } catch (e) {
+      //Call the sendPasswordResetEmail method to send an email with a link to reset the password
+      await auth.sendPasswordResetEmail(email:email);
+    }catch(e){
       print(e);
     }
   }
@@ -832,3 +841,9 @@ final MlTheme = ThemeData(
     ),
   ),
 );
+
+
+
+
+
+

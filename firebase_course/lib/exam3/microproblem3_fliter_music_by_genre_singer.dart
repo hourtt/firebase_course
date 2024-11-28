@@ -395,9 +395,10 @@ class _PlaylistPageState extends State<PlaylistPage> {
                 //Set the stream property of the StreamBuilder to the getFilteredMusicDocuments method.
                 //Use it with the asStream method below.
                 //stream.asReplace() => cloudFirestoreHelper.getFilteredMusicDocuments(selectedSinger,selectedGenre,selectedSort).asStream(),
+                //*Modify from stream: cloudFirestoreHelper.getFilteredMusicDocuments( selectedSinger, selectedGenre, selectedSort) .asStream(), to stream: cloudFirestoreHelper.getFilteredMusicDocuments( selectedGenre, selectedSinger, selectedSort) .asStream(),
                 stream: cloudFirestoreHelper
                     .getFilteredMusicDocuments(
-                        selectedSinger, selectedGenre, selectedSort)
+                        selectedGenre, selectedSinger, selectedSort)
                     .asStream(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {

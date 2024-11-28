@@ -473,7 +473,7 @@ class StorageHelper {
     //Create a reference to the Firebase Storage location where the image will be stored.
     //Use the follow path below
     // post_image/$imageName.jpg
-    final imageRef = storage.ref().child('post_img/$imageName.jpg');
+    final imageRef = storage.ref().child('post_image/$imageName.jpg');
 
     //TODO: Part 2 - Instruction 3
     //Call getImage function with await to retrieve the image data from imageUrl
@@ -486,12 +486,13 @@ class StorageHelper {
       //Call putData method to upload the retrieved image image data to the imageRef location.
       //Use the following metadata below
       //SettableMetadata(contentType:'image/jpg')
-      imageRef.putData(data, SettableMetadata(contentType: 'image/jpg'));
+
+      await imageRef.putData(data, SettableMetadata(contentType: 'image/jpg'));
 
       //TODO: Part 2 - Instruction 5
       //Call getDownloadURL method to get the download url of the uploaded image.
       //Retrieved the download URL and return it
-      final download = imageRef.getDownloadURL();
+      final download = await imageRef.getDownloadURL();
 
       return download;
     } catch (e) {
